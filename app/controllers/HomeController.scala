@@ -23,26 +23,25 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index = Action(parse.multipartFormData) { request =>
-    request.body.file("sourceFile").map { sourceFile =>
-      val path = sourceFile.ref.path
-      val filename = path.toString
 
-      val file = Source.fromFile(filename)
-      val text = file.mkString
-      file.close()
+  def index(unused: String) = Action(parse.temporaryFile) { request => {
+    val path = request.body.path
+    val filename = path.toString
 
-      path.toFile.delete()
+    val file = Source.fromFile(filename)
+    val text = file.mkString
+    file.close()
 
-      Scalafmt.format(text) match {
-        case Formatted.Success(formattedText) =>
-          Ok(formattedText)
-        case Formatted.Failure(e) =>
-          Logger.error("Failed to format", e)
-          Ok(text)
+    path.toFile.delete()
+
+    Scalafmt.format(text) match {
+      case Formatted.Success(formattedText) =>
+        Ok(formattedText)
+      case Formatted.Failure(e) =>
+        Logger.error("Failed to format", e)
+        Ok(text)
       }
-    }.getOrElse {
-      Ok("No file specified")
     }
   }
+
 }
