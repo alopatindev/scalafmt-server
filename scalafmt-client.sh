@@ -1,5 +1,12 @@
 #!/bin/sh
 
 PORT=$1
-TEXT=$(cat /dev/stdin)
-wget -qO - "http://127.0.0.1:${PORT}/?t=${TEXT}" || echo "${TEXT}"
+HOST='127.0.0.1'
+
+if [[ $PORT -eq '' ]]
+then
+    echo 'Port is not specified'
+    exit 1
+fi
+
+curl -X POST -H "Content-Type: multipart/form-data" -F "sourceFile=@/dev/stdin" "http://${HOST}:${PORT}/upload"

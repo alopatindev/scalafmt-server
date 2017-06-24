@@ -1,8 +1,13 @@
 package controllers
 
 import javax.inject._
+
+import org.scalafmt.{Formatted, Scalafmt}
+
 import play.api._
 import play.api.mvc._
+
+import scala.io.Source
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -20,5 +25,28 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    */
   def index() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.index())
+  }
+
+  def upload = Action(parse.multipartFormData) { request =>
+    request.body.file("sourceFile").map { sourceFile =>
+      val path = sourceFile.ref.path
+      val filename = path.toString
+
+      val file = Source.fromFile(filename)
+      val text = file.mkString
+      file.close()
+
+      path.toFile.delete()
+
+      Scalafmt.format(text) match {
+        case Formatted.Success(formattedText) =>
+          Ok(formattedText)
+        case Formatted.Failure(e) =>
+          Logger.error("Failed to format", e)
+          Ok(text)
+      }
+    }.getOrElse {
+      Ok("No file specified")
+    }
   }
 }
