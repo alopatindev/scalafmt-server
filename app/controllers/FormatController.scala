@@ -9,22 +9,11 @@ import play.api.mvc._
 
 import scala.io.Source
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
 @Singleton
-class FormatController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class FormatController @Inject()(cc: ControllerComponents)
+    extends AbstractController(cc) {
 
-  /**
-   * Create an Action to render an HTML page.
-   *
-   * The configuration in the `routes` file means that this method
-   * will be called when the application receives a `GET` request with
-   * a path of `/`.
-   */
-
-  def index(unused: String) = Action(parse.temporaryFile) { request => {
+  def index(unused: String) = Action(parse.temporaryFile) { request =>
     val path = request.body.path
     val filename = path.toString
 
@@ -40,7 +29,6 @@ class FormatController @Inject()(cc: ControllerComponents) extends AbstractContr
       case Formatted.Failure(e) =>
         Logger.error("Failed to format", e)
         Ok(text)
-      }
     }
   }
 
