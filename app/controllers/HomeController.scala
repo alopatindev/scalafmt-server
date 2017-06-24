@@ -23,11 +23,7 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
    * will be called when the application receives a `GET` request with
    * a path of `/`.
    */
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index())
-  }
-
-  def upload = Action(parse.multipartFormData) { request =>
+  def index = Action(parse.multipartFormData) { request =>
     request.body.file("sourceFile").map { sourceFile =>
       val path = sourceFile.ref.path
       val filename = path.toString

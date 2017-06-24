@@ -9,4 +9,4 @@ then
     exit 1
 fi
 
-curl -X POST -H "Content-Type: multipart/form-data" -F "sourceFile=@/dev/stdin" "http://${HOST}:${PORT}/upload"
+curl -X POST -H "Content-Type: multipart/form-data" -F "sourceFile=@/dev/stdin" "http://${HOST}:${PORT}/"
