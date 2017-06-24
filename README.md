@@ -10,12 +10,14 @@ HTTP server to format Scala code for text editors (like vim)
 That's sad
 
 # Usage
+Unpack and run the server
 ```sh
-sbt assembly
-scala target/scala-*/scalafmt-server-assembly-*.jar 8899 &
+sbt universal:packageZipTarball
+tar xzf target/universal/scalafmt-server-*.tgz
+bash scalafmt-server-*/bin/scalafmt-server -Dhttp.address=localhost -Dhttp.port=8899 &
 ```
 
-Add to your `.vimrc`
+If you're using [vim-autoformat](https://github.com/Chiel92/vim-autoformat):
 ```viml
 let g:formatdef_scalafmt = "'path/to/scalafmt-client.sh 8899'"
 let g:formatters_scala = ['scalafmt']
