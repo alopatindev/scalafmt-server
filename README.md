@@ -14,7 +14,7 @@ Unpack and run the server
 ```sh
 sbt universal:packageZipTarball
 tar xzf target/universal/scalafmt-server-*.tgz
-bash scalafmt-server-*/bin/scalafmt-server -Dhttp.address=localhost -Dhttp.port=8899 &
+scalafmt-server-*/bin/scalafmt-server -Dhttp.address=localhost -Dhttp.port=8899 &
 ```
 
 If you're using [vim-autoformat](https://github.com/Chiel92/vim-autoformat):
