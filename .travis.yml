@@ -3,5 +3,5 @@ language: scala
 scala:
     - 2.12.2
 script:
-    sbt test
-    sbt universal:packageZipTarball
+    - sbt test
+    - sbt universal:packageZipTarball
