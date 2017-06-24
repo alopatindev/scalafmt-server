@@ -18,16 +18,23 @@ object ScalaFmtServer {
       try {
         format(input).get
       } catch {
-        case e: Exception => input
+        case e: Exception =>
+          println(e)
+          input
       }
     }
 
     override def handle(exchange: HttpExchange) {
-      val output = decodeAndFormat(exchange)
-      exchange.sendResponseHeaders(200, output.length)
-      val outputStream = exchange.getResponseBody()
-      outputStream.write(output.getBytes)
-      outputStream.close()
+      try {
+        val output = decodeAndFormat(exchange)
+        val bytes = output.getBytes
+        exchange.sendResponseHeaders(200, bytes.length)
+        val outputStream = exchange.getResponseBody()
+        outputStream.write(bytes)
+        outputStream.close()
+      } catch {
+        case e: Exception => println(e)
+      }
     }
   }
 
