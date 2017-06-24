@@ -2,6 +2,7 @@
 
 PORT=$1
 HOST='localhost'
+INPUT='/dev/stdin'
 
 if [[ $PORT -eq '' ]]
 then
@@ -9,4 +10,4 @@ then
     exit 1
 fi
 
-curl --upload-file "/dev/stdin" "http://${HOST}:${PORT}/"
+curl -s --upload-file "${INPUT}" "http://${HOST}:${PORT}/" || cat "${INPUT}"
