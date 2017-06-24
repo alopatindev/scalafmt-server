@@ -1,7 +1,7 @@
 #!/bin/sh
 
 PORT=$1
-HOST='127.0.0.1'
+HOST='localhost'
 
 if [[ $PORT -eq '' ]]
 then

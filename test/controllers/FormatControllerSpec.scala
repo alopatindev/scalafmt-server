@@ -13,15 +13,32 @@ import play.api.test.Helpers._
  */
 class FormatControllerSpec extends PlaySpec with GuiceOneAppPerTest with Injecting {
 
-  "FormatController GET" should {
+  "FormatController PUT" should {
 
-    "render the index page from the router" in {
-      val request = FakeRequest(GET, "/")
+    "upload a source code file" in {
+      val input = "object   Main extends  App {}"
+      val output = "object Main extends App {}"
+
+      val request = FakeRequest(PUT, "/stdin")
+        .withTextBody(input)
       val format = route(app, request).get
 
       status(format) mustBe OK
-      contentType(format) mustBe Some("text/html")
-      contentAsString(format) must include ("Welcome to Play")
+      contentType(format) mustBe Some("text/plain")
+      contentAsString(format) must include (output)
+    }
+
+    "upload a broken text file" in {
+      val input = "object   Main extendZZZZ  App {"
+      val output = "object   Main extendZZZZ  App {"
+
+      val request = FakeRequest(PUT, "/stdin")
+        .withTextBody(input)
+      val format = route(app, request).get
+
+      status(format) mustBe OK
+      contentType(format) mustBe Some("text/plain")
+      contentAsString(format) must include (output)
     }
   }
 }
