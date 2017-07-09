@@ -1,5 +1,5 @@
 name := """scalafmt-server"""
-organization := "com.alopatindev"
+organization := "io.github.alopatindev"
 
 version := "1.0-SNAPSHOT"
 
