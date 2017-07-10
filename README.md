@@ -1,4 +1,4 @@
-HTTP server to format Scala code for text editors (like vim)
+HTTP server to format Scala code from text editors (like vim)
 
 [![Build Status](https://api.travis-ci.org/alopatindev/scalafmt-server.svg?branch=master)](https://travis-ci.org/alopatindev/scalafmt-server)
 
@@ -14,7 +14,7 @@ Unpack and run the server
 ```sh
 sbt universal:packageZipTarball
 tar xzf target/universal/scalafmt-server-*.tgz
-scalafmt-server-*/bin/scalafmt-server -J-Xms512m -J-Xmn512m -Dhttp.address=localhost -Dhttp.port=8899 &
+scalafmt-server-*/scalafmt-server.sh 8899 &
 ```
 
 If you're using [vim-autoformat](https://github.com/Chiel92/vim-autoformat):
